@@ -1,0 +1,6 @@
+# Computer Vision - Autonomous Battlebot
+# Dependencies to be added during implementation
+
+# opencv-contrib-python  # ArUco detection, camera, image processing
+# numpy                  # Numerical operations, array handling
+# pyyaml                 # Configuration loading (optional)
