@@ -1,0 +1,4 @@
+# Raspberry Pi dependency set.
+# Keep this small and practical for Raspberry Pi OS (64-bit).
+
+-r requirements.txt

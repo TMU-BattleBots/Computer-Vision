@@ -1,0 +1,6 @@
+# Computer Vision - Autonomous Battlebot
+# Core Python dependencies
+
+numpy>=1.24,<3
+opencv-contrib-python>=4.7,<5
+pyyaml>=6,<7
