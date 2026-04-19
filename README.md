@@ -1,10 +1,10 @@
-# Computer-Vision
+# Computer-Vision Related Repository
 
-This is the code hub for the Computer Vision-related component of the Vision-Guided Autonomous Robot. All code for this component can be found here and is planned to be updated regularly.
+This is the code hub for the Computer Vision-related component of the Vision-Guided Autonomous Robot. All code for this component can be found here and will be updated regularly.
 
 ## Raspberry Pi Quick Start
 
-This project includes a one-command Raspberry Pi setup and run script.
+This project includes a one-command setup-and-run script for the Raspberry Pi:
 
 ```bash
 chmod +x scripts/pi_setup_and_run.sh
