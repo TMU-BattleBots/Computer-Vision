@@ -20,6 +20,9 @@ from config.aruco_config import ArucoConfig, CameraConfig
 from vision.aruco_detector import ArucoDetector
 from vision.camera import OpenCVCamera
 
+from state_machine.state_machine import StateMachine
+from utils.motor_commands import get_motor_command
+
 
 def parse_args() -> argparse.Namespace:
     """Parse command-line options for quick MVP tuning."""
@@ -63,6 +66,8 @@ def main() -> None:
             target_marker_id=args.target_id,
         )
     )
+    
+    state_machine = StateMachine() 
 
     camera.open()
     frames = 0
@@ -78,6 +83,14 @@ def main() -> None:
                 continue
 
             result = detector.detect(frame)
+            
+            state = state_machine.update(result)
+
+            motor_command = get_motor_command(
+                state,
+                result
+            )
+            
             frames += 1
             now = time.perf_counter()
             elapsed = now - last_fps_time
@@ -87,9 +100,13 @@ def main() -> None:
                 last_fps_time = now
 
             center_text = result.center if result.center is not None else "None"
+           
             print(
-                f"FPS={fps:5.1f} | visible={result.target_visible} | "
-                f"id={result.marker_id} | center={center_text} | area={result.marker_area:.1f}",
+                f"FPS={fps:5.1f} | "
+                f"state={state.name} | "
+                f"motors={motor_command} | "
+                f"visible={result.target_visible} | "
+                f"id={result.marker_id}",
                 end="\r",
             )
 
