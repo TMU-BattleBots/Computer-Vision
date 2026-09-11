@@ -22,6 +22,7 @@ from vision.camera import OpenCVCamera
 
 from state_machine.state_machine import StateMachine
 from utils.motor_commands import get_motor_command
+from utils.serial_motor_controller import SerialMotorController
 
 
 def parse_args() -> argparse.Namespace:
@@ -47,6 +48,12 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Disable OpenCV preview window for headless testing.",
     )
+    parser.add_argument(
+        "--motor-port",
+        type=str,
+        default=None,
+        help="Optional Arduino serial port.",
+    )
     return parser.parse_args()
 
 
@@ -67,8 +74,12 @@ def main() -> None:
         )
     )
     
-    state_machine = StateMachine() 
+state_machine = StateMachine()
 
+motor_controller = None
+
+if args.motor_port is not None:
+    motor_controller = SerialMotorController(args.motor_port)
     camera.open()
     frames = 0
     last_fps_time = time.perf_counter()
@@ -90,7 +101,12 @@ def main() -> None:
                 state,
                 result
             )
-            
+
+if motor_controller is not None:
+    motor_controller.send_command(
+        motor_command[0],
+        motor_command[1],
+    )            
             frames += 1
             now = time.perf_counter()
             elapsed = now - last_fps_time
@@ -135,11 +151,15 @@ def main() -> None:
                     break
     except KeyboardInterrupt:
         pass
-    finally:
-        camera.release()
-        cv2.destroyAllWindows()
-        print("\nArUco MVP stopped.")
 
+finally:
+    if motor_controller is not None:
+        motor_controller.stop()
+        motor_controller.close()
+
+    camera.release()
+    cv2.destroyAllWindows()
+    print("\nArUco MVP stopped.")
 
 if __name__ == "__main__":
     main()
