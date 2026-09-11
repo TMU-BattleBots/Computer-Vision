@@ -24,6 +24,7 @@ from state_machine.state_machine import StateMachine
 from utils.motor_commands import get_motor_command
 from utils.serial_motor_controller import SerialMotorController
 
+
 def parse_args() -> argparse.Namespace:
     """Parse command-line options for quick MVP tuning."""
     parser = argparse.ArgumentParser(description="Run ArUco MVP detector loop.")
