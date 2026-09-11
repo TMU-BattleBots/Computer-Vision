@@ -1,0 +1,1 @@
+"""Motor PWM ConfigurationPWM range: 1000-2000STOP value: 1500"""STOP_PWM = 1500# Initial movement testing valuesFORWARD_PWM = 1600SEARCH_LEFT_PWM = 1450SEARCH_RIGHT_PWM = 1550# PWM rangeMIN_PWM = 1000MAX_PWM = 2000
